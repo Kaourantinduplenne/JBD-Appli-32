@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc } from 'firebase/firestore';
@@ -29,6 +28,7 @@ const renderIcons = (items, onClick, iconMap) => {
     </div>
   );
 };
+
 export default function App() {
   const [path, setPath] = useState([]);
   const [selectedPdfUrl, setSelectedPdfUrl] = useState(null);
@@ -47,26 +47,11 @@ export default function App() {
     const fileRef = ref(storage, `${upload.rig}/${upload.dept}/${upload.file.name}`);
     await uploadBytes(fileRef, upload.file);
     setMessage('PDF uploaded successfully');
-    };
-
   };
 
-  const renderIcons = (items, onClick, iconMap = {}) => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-      {items.map((item) => (
-        <div
-          key={item}
-          style={{
-            width: 152,
-            height: 152,
-          }}
-        >
-          {iconMap[item] && <img src={iconMap[item]} alt={item} width={64} height={64} />}
-          <span>{item}</span>
-        </div>
-      ))}
-    </div>
-  );
+  const renderPage = () => {
+    if (path.length === 0) {
+      return (
         <>
           {renderIcons(rigs, (r) => setPath([r]), rigIcons)}
           <div style={{ marginTop: 20 }}>
@@ -83,23 +68,28 @@ export default function App() {
                   else alert('Wrong password');
                 }}>Login</button>
               </div>
-) : (
-              <button onClick={() => { setAdminLoggedIn(false); setAdminPass(''); }}>Logout</button>
-</div>
-        </div>
-} else if (path.length === 1) {
-      return renderIcons(jbdTypes, (j) => setPath([...path, j]), jbdIcons)
+            ) : (
+              <button onClick={() => {
+                setAdminLoggedIn(false);
+                setAdminPass('');
+              }}>Logout</button>
+            )}
+          </div>
+        </>
+      );
+    } else if (path.length === 1) {
+      return renderIcons(jbdTypes, (j) => setPath([...path, j]), jbdIcons);
     } else if (path.length === 2) {
-      return renderIcons(departments, (d) => setPath([...path, d]))
+      return renderIcons(departments, (d) => setPath([...path, d]));
     } else if (path.length === 3) {
       const dummyURL = `https://firebasestorage.googleapis.com/v0/b/jbd-app-01.appspot.com/o/sample.pdf?alt=media`;
       return (
         <div>
           <p>Example PDF Placeholder</p>
-          <button onClick={() => setSelectedPdfUrl(dummyURL});>Open Example PDF</button>
+          <button onClick={() => setSelectedPdfUrl(dummyURL)}>Open Example PDF</button>
         </div>
-}
-
+      );
+    }
     return null;
   };
 
@@ -107,26 +97,28 @@ export default function App() {
     <div style={{ padding: 20 }}>
       <h1>JBD App</h1>
       {(path.length > 0 || selectedPdfUrl) && (
-        <button onClick={goBack} style={{ marginBottom: 20 }}>Back</button>
-{renderPage(});
+        <>
+          <button onClick={goBack} style={{ marginBottom: 20 }}>Back</button>
+          {renderPage()}
+        </>
+      )}
 
-        <div style={{ marginTop: 20 }}>
-        </div>
-{adminLoggedIn && (
+      {adminLoggedIn && (
         <div style={{ marginTop: 30 }}>
           <h3>Upload PDF (Formal JBD only)</h3>
-          <select onChange={e => setUpload({ ...upload, rig: e.target.value }});>
+          <select onChange={e => setUpload({ ...upload, rig: e.target.value })}>
             <option value="">Select Rig</option>
-            {rigs.map(r => <option key={r} value={r}>{r}</option>});
+            {rigs.map(r => <option key={r} value={r}>{r}</option>)}
           </select>
-          <select onChange={e => setUpload({ ...upload, dept: e.target.value }});>
+          <select onChange={e => setUpload({ ...upload, dept: e.target.value })}>
             <option value="">Select Department</option>
-            {departments.map(d => <option key={d} value={d}>{d}</option>});
+            {departments.map(d => <option key={d} value={d}>{d}</option>)}
           </select>
-          <input type="file" onChange={e => setUpload({ ...upload, file: e.target.files[0] }}); />
+          <input type="file" onChange={e => setUpload({ ...upload, file: e.target.files[0] })} />
           <button onClick={handleUpload}>Upload</button>
         </div>
-{message && <p style={{ color: 'green' }}>{message}</p>}
+      )}
+      {message && <p style={{ color: 'green' }}>{message}</p>}
     </div>
+  );
 }
-)
