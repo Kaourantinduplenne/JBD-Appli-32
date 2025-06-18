@@ -83,7 +83,7 @@ export default function App() {
                   else alert('Wrong password');
                 }}>Login</button>
               </div>
-: (
+) : (
               <button onClick={() => { setAdminLoggedIn(false); setAdminPass(''); }}>Logout</button>
 </div>
         </div>
