@@ -76,7 +76,7 @@ export default function App() {
                   type="password"
                   placeholder="Admin Password"
                   value={adminPass}
-                  onChange={(e) => setAdminPass(e.target.value});
+                  onChange={(e) => setAdminPass(e.target.value})
                 />
                 <button onClick={() => {
                   if (adminPass === 'admin123') setAdminLoggedIn(true);
