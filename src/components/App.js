@@ -80,7 +80,7 @@ export default function App() {
     } else if (path.length === 1) {
       return renderIcons(jbdTypes, (j) => setPath([...path, j]), jbdIcons);
     } else if (path.length === 2) {
-      return renderIcons(departments, (d) => setPath([...path, d]));
+      return renderIcons(departments, (d) => setPath([...path, d]), {});
     } else if (path.length === 3) {
       const dummyURL = `https://firebasestorage.googleapis.com/v0/b/jbd-app-01.appspot.com/o/sample.pdf?alt=media`;
       return (
