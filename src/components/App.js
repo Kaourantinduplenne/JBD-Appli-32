@@ -96,12 +96,12 @@ export default function App() {
   return (
     <div style={{ padding: 20 }}>
       <h1>JBD App</h1>
+      <>
       {(path.length > 0 || selectedPdfUrl) && (
-        <>
-          <button onClick={goBack} style={{ marginBottom: 20 }}>Back</button>
-          {renderPage()}
-        </>
+        <button onClick={goBack} style={{ marginBottom: 20 }}>Back</button>
       )}
+      {renderPage()}
+    </>
 
       {adminLoggedIn && (
         <div style={{ marginTop: 30 }}>
